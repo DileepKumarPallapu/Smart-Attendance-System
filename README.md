@@ -61,7 +61,7 @@ This repository features **Pallapu Dileep Kumar** (`VTU29962 - 24UECS0805 - CSE(
 ## 🚀 How to Upload to GitHub (DileepKumarPallapu)
 
 1. Open the GitHub repository for DileepKumarPallapu:
-   👉 **[https://github.com/DileepKumarPallapu/veltech-smart-attendance](https://github.com/DileepKumarPallapu/veltech-smart-attendance)**
+   👉 **[https://github.com/DileepKumarPallapu/veltech-smart-attendance](https://github.com/DileepKumarPallapu/Smart-Attendance-System)**
 
 2. Click **`Add file`** (top right) ➔ **`Upload files`**.
 
