@@ -6,7 +6,7 @@ A full-stack, responsive, role-based Smart Attendance Management System designed
 
 This repository features **Pallapu Dileep Kumar** (`VTU29962 - 24UECS0805 - CSE(AIML)`) as the primary student profile and is configured for deployment on **GitHub Pages**!
 
-🌐 **Live Website Link**: [https://DileepKumarPallapu.github.io/veltech-smart-attendance/](https://DileepKumarPallapu.github.io/veltech-smart-attendance/)
+🌐 **Live Website Link**: [https://DileepKumarPallapu.github.io/veltech-smart-attendance/](https://dileepkumarpallapu.github.io/Smart-Attendance-System/)
 
 ---
 
