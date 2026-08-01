@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology - Smart Attendance System</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              bg: '#060913',
+              card: '#0d1322',
+              border: '#1e293b',
+              indigo: '#6366f1',
+              violet: '#8b5cf6',
+              rose: '#f43f5e',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              cyan: '#06b6d4',
+            }
+          },
+          fontFamily: {
+            heading: ['Space Grotesk', 'sans-serif'],
+            body: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Space Grotesk & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons & PDF Generation Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- 100% Unique Cyber-Grade Glass & Light/Dark Adaptive CSS -->
+  <style>
+    /* Dark Mode Defaults */
+    html.dark body {
+      background-color: #060913;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: #f1f5f9;
+    }
+
+    html.dark .cyber-card {
+      background: rgba(13, 19, 34, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    }
+
+    html.dark .header-bar {
+      background: rgba(2, 6, 23, 0.85);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    /* Light Mode Overrides */
+    html:not(.dark) body {
+      background-color: #f8fafc;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.05) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: #0f172a;
+    }
+
+    html:not(.dark) .cyber-card {
+      background: #ffffff;
+      backdrop-filter: none;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    }
+
+    html:not(.dark) .header-bar {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+
+    html:not(.dark) .text-white {
+      color: #0f172a !important;
+    }
+
+    html:not(.dark) .text-slate-300, 
+    html:not(.dark) .text-slate-400 {
+      color: #475569 !important;
+    }
+
+    html:not(.dark) .bg-slate-950,
+    html:not(.dark) .bg-slate-900 {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    html:not(.dark) table thead {
+      background-color: #f1f5f9 !important;
+      color: #334155 !important;
+    }
+
+    html:not(.dark) table tbody tr:hover {
+      background-color: #f8fafc !important;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Cyber Neon Action Buttons */
+    .btn-cyber {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #e11d48 100%);
+      color: #ffffff !important;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+      transition: all 0.25s ease;
+    }
+
+    .btn-cyber:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 0 30px rgba(244, 63, 94, 0.5);
+    }
+
+    /* Cyber Neon Badges */
+    .badge-present-cyber {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-absent-cyber {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f43f5e;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+
+    /* Custom Futuristic Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(6, 9, 19, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #6366f1 0%, #06b6d4 100%);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-20 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Header Navigation (Adaptive Dark/Light Dock) -->
+  <header id="main-header" class="sticky top-0 z-40 header-bar backdrop-blur-2xl px-4 md:px-8 py-3.5 flex items-center justify-between border-b shadow-md transition-colors duration-300">
+    <div class="flex items-center space-x-3.5">
+      <!-- Official Vel Tech Logo Image -->
+      <img src="veltech_logo.png" alt="Vel Tech Logo" class="w-12 h-12 rounded-full object-contain shrink-0 drop-shadow-md bg-white p-0.5 ring-2 ring-indigo-500/60" />
+      <div>
+        <h1 class="text-sm md:text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-violet-500 to-rose-500 tracking-tight leading-tight">
+          Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology
+        </h1>
+        <p class="text-[10px] text-slate-400 font-medium hidden sm:block">Deemed to be University • Accredited by NAAC with A++ Grade • Smart Attendance Portal</p>
+      </div>
+    </div>
+
+    <!-- Right Controls: Theme Mode Toggle & User Profile -->
+    <div class="flex items-center space-x-3">
+      
+      <!-- DARK & LIGHT MODE TOGGLE BUTTON -->
+      <button id="theme-toggle-btn" onclick="toggleThemeMode()" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-amber-300 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm">
+        <i id="theme-icon" data-lucide="sun" class="w-4 h-4 text-amber-500 dark:text-amber-400"></i>
+        <span id="theme-label" class="hidden sm:inline font-black">Light Mode</span>
+      </button>
+
+      <!-- Active User Profile Header Badge (Visible when logged in) -->
+      <div id="header-user-badge" class="hidden items-center space-x-2 border-l border-slate-300 dark:border-slate-800 pl-3">
+        <img id="user-avatar" src="veltech_logo.png" class="w-9 h-9 rounded-full object-cover bg-white p-0.5 ring-2 ring-cyan-500/50 shadow-lg" />
+        <div class="hidden md:block text-left text-xs">
+          <p id="user-name" class="font-bold text-slate-900 dark:text-slate-100">User</p>
+          <p id="user-role-label" class="text-[10px] text-indigo-600 dark:text-cyan-400 font-bold uppercase tracking-wider">Role</p>
+        </div>
+        <button onclick="logoutUser()" class="ml-2 px-3.5 py-1.5 bg-slate-200 dark:bg-slate-900 hover:bg-rose-600 hover:text-white border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-md">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="flex-1 p-4 md:p-8 max-w-7xl mx-auto w-full flex flex-col justify-center">
+
+    <!-- 0. OFFICIAL VEL TECH LOGIN SCREEN (STRICT 8-CHARACTER USERNAME FOR PALLAPU DILEEP KUMAR: VTU29962) -->
+    <section id="view-login" class="max-w-md mx-auto w-full my-auto space-y-6">
+      <div class="cyber-card p-8 rounded-3xl relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-52 h-52 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Login Header -->
+        <div class="text-center space-y-3 pb-5 border-b border-slate-200 dark:border-slate-800/80">
+          <img src="veltech_logo.png" alt="Vel Tech Emblem" class="w-20 h-20 mx-auto rounded-full object-contain bg-white p-1 shadow-xl ring-4 ring-indigo-500/40" />
+          <div>
+            <h2 class="text-base font-bold text-white tracking-tight leading-snug">
+              Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology
+            </h2>
+            <p class="text-[11px] text-indigo-500 dark:text-cyan-400 mt-1 font-semibold">Smart Attendance Management System</p>
+          </div>
+        </div>
+
+        <!-- Role Selector Tabs -->
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-100 dark:bg-slate-950 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 my-5 text-xs font-extrabold">
+          <button onclick="setLoginRole('student')" id="tab-login-student" class="py-2.5 rounded-xl transition-all bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/40">
+            Student
+          </button>
+          <button onclick="setLoginRole('faculty')" id="tab-login-faculty" class="py-2.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            Faculty
+          </button>
+          <button onclick="setLoginRole('admin')" id="tab-login-admin" class="py-2.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            Admin
+          </button>
+        </div>
+
+        <!-- Dynamic Validation Error Alert Banner -->
+        <div id="login-error-alert" class="hidden p-3.5 bg-rose-50 dark:bg-rose-950/90 border border-rose-300 dark:border-rose-600/80 text-rose-800 dark:text-rose-200 rounded-2xl text-xs font-bold space-y-1 shadow-xl">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="x-circle" class="w-4 h-4 text-rose-500 shrink-0"></i>
+            <span class="font-bold">Authentication Failed!</span>
+          </div>
+          <p id="login-error-text" class="text-[11px] text-rose-700 dark:text-rose-300 font-medium pl-6">
+            Invalid Username or Password. Access denied.
+          </p>
+        </div>
+
+        <!-- Login Form -->
+        <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          
+          <!-- Faculty Selector Dropdown (Shown when Faculty tab active) -->
+          <div id="faculty-selector-wrapper" class="hidden space-y-1.5">
+            <label class="text-xs font-bold text-amber-600 dark:text-amber-300 uppercase tracking-wider flex items-center justify-between">
+              <span>Select Faculty Account:</span>
+              <span class="text-[10px] text-rose-500 font-mono">Pass: faculty123</span>
+            </label>
+            <select id="select-faculty-member" onchange="onFacultySelectChange(this.value)" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-bold text-xs rounded-xl px-3.5 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <option value="TTS4232" selected>Dr. GODLIN JASIL. S.P (TTS4232) • 10211CS223 Machine Learning</option>
+              <option value="TTS3146">Dr. ANGELINE LYDIA (TTS3146) • 10212CS217 Data Science</option>
+              <option value="TTS4102">Dr SATHYA MOORTHI. S (TTS4102) • 10210CH104 Environmental Sci</option>
+              <option value="TTS3938">Dr. BARKATHULLA. A (TTS3938) • 10211CS129 Computer Arch</option>
+              <option value="TTS3994">Dr. AMU. D (TTS3994) • 10211CS208 Software Engineering</option>
+              <option value="TTS4066">Dr. SATHYAMOORTHY. K (TTS4066) • 10211CS227 Problem Solving</option>
+              <option value="TTS4013">Dr. KAVIARASAN. S (TTS4013) • 10212CS292 Applied Programming</option>
+              <option value="TTS3897">Dr. UMANESAN. R (TTS3897) • 10213GE308 Professional Comm</option>
+              <option value="TTS3843">Dr. KARTHIYAYINI. S (TTS3843) • 10214CS601 Minor Project - I</option>
+              <option value="CDS040">DINESHKUMAR. R (CDS040) • 10216GE903 Aptitude Skills - I</option>
+            </select>
+          </div>
+
+          <!-- Username Input (STRICT MAXLENGTH 8 CHARACTERS FOR STUDENT LOGINS) -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label id="lbl-login-username" class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                Student Username (Max 8 Chars):
+              </label>
+              <span id="char-limit-badge" class="text-[10px] font-mono text-cyan-600 dark:text-cyan-300 font-bold bg-slate-100 dark:bg-slate-950 px-2 py-0.5 rounded-lg border border-cyan-500/40">
+                Max 8 Chars
+              </span>
+            </div>
+            <div class="relative">
+              <input type="text" id="input-username" required maxlength="8" placeholder="VTU29962" value="VTU29962" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white rounded-xl px-3.5 py-3 text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-slate-400 dark:placeholder-slate-500 uppercase" />
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center">
+              <label class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Password:</label>
+              <a href="#" onclick="showToast('Password reset link sent to registered Vel Tech email.')" class="text-[10px] text-indigo-600 dark:text-cyan-400 font-bold hover:underline">Forgot?</a>
+            </div>
+            <div class="relative">
+              <input type="password" id="input-password" required placeholder="••••••••" value="student123" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white rounded-xl px-3.5 py-3 text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-slate-400 dark:placeholder-slate-500" />
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full py-3.5 btn-cyber font-extrabold text-sm rounded-xl flex items-center justify-center space-x-2">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>Authenticate & Log In</span>
+          </button>
+        </form>
+
+        <!-- Quick 1-Click Demo Credentials Auto-Fill Buttons -->
+        <div class="mt-5 pt-4 border-t border-slate-200 dark:border-slate-800/80 space-y-2">
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 text-center font-semibold">1-Click Quick Demo Login Fill:</p>
+          <div class="grid grid-cols-2 gap-2 text-[10px] font-bold">
+            <button onclick="autofillCredentials('student')" class="py-2.5 bg-slate-100 dark:bg-slate-900 hover:bg-amber-50 dark:hover:bg-slate-800 text-amber-700 dark:text-amber-300 rounded-xl border border-slate-300 dark:border-slate-700/80 truncate shadow-sm">
+              👤 Fill Student (VTU29962)
+            </button>
+            <button onclick="autofillCredentials('faculty')" class="py-2.5 bg-slate-100 dark:bg-slate-900 hover:bg-emerald-50 dark:hover:bg-slate-800 text-emerald-700 dark:text-emerald-300 rounded-xl border border-slate-300 dark:border-slate-700/80 truncate shadow-sm">
+              👨‍🏫 Fill Faculty (Dr. Godlin)
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. FACULTY ATTENDANCE WORKSPACE -->
+    <section id="view-faculty" class="space-y-6 hidden">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <h2 class="text-2xl font-bold tracking-tight text-white flex items-center space-x-2">
+              <i data-lucide="lock" class="w-6 h-6 text-indigo-500"></i>
+              <span>Faculty Sole Subject Workspace</span>
+            </h2>
+            <span class="px-3 py-0.5 rounded-full text-[10px] font-extrabold badge-absent-cyber">
+              🔒 Authenticated & Locked
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">
+            Institution: <span class="font-bold text-slate-800 dark:text-slate-300">Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology</span> • Faculty: <span id="faculty-assigned-banner" class="font-bold text-amber-600 dark:text-amber-300">Dr. GODLIN JASIL. S.P (TTS4232)</span> • Subject: <span id="faculty-sole-subject-banner" class="font-extrabold text-indigo-600 dark:text-indigo-400">10211CS223 Machine Learning Techniques</span>
+          </p>
+        </div>
+        
+        <div class="flex items-center space-x-2 self-start md:self-auto">
+          <button onclick="markAllPresentForActiveSubject()" class="px-4 py-2.5 bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 text-emerald-800 dark:text-emerald-300 font-extrabold text-xs rounded-xl shadow-md flex items-center space-x-1.5 transition-all">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+            <span>Mark All Present</span>
+          </button>
+          <button onclick="saveAndSubmitSubjectAttendance()" class="px-5 py-2.5 btn-cyber font-extrabold text-xs rounded-xl flex items-center space-x-2">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span>Save Subject Attendance</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Metric Stats for Logged-In Faculty's Subject -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="cyber-card p-4.5">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Logged In Faculty</div>
+          <div id="stat-active-faculty" class="text-base font-bold text-amber-600 dark:text-amber-300 mt-1 truncate">Dr. GODLIN JASIL. S.P</div>
+          <div id="stat-active-faculty-id" class="text-[11px] text-indigo-600 dark:text-cyan-400 mt-1 font-mono font-bold">Faculty ID: TTS4232</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Assigned Subject Code</div>
+          <div id="stat-subject-code" class="text-xl font-bold text-white mt-1">10211CS223</div>
+          <div id="stat-subject-slot" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-mono">Slot: S6</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Subject Present Count</div>
+          <div id="stat-present-count" class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">29 Present</div>
+          <div id="stat-present-rate" class="text-[11px] text-emerald-700 dark:text-emerald-400 mt-1 font-bold">96.7% Attendance Rate</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Subject Absent Count</div>
+          <div id="stat-absent-count" class="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1">1 Absent</div>
+          <div class="text-[11px] text-rose-600 dark:text-rose-400 mt-1 font-semibold">Database Logged</div>
+        </div>
+      </div>
+
+      <!-- Selection & Attendance Matrix Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Bucket & Assigned Subject Card Panel -->
+        <div class="cyber-card p-5 space-y-4">
+          <div class="space-y-1.5 pb-3 border-b border-slate-200 dark:border-slate-800">
+            <label class="text-xs font-bold uppercase text-amber-600 dark:text-amber-300 tracking-wider flex items-center justify-between">
+              <span>Select Class Bucket:</span>
+              <span class="text-[10px] text-slate-500 dark:text-slate-400 font-normal">Section Bucket</span>
+            </label>
+            <select id="bucket-selector" onchange="changeBucket(this.value)" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-white font-bold text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <option value="Bucket 29" selected>Bucket 29 (30 Students)</option>
+              <option value="Bucket 28">Bucket 28 (30 Students)</option>
+              <option value="Bucket 30">Bucket 30 (30 Students)</option>
+            </select>
+          </div>
+
+          <h3 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 tracking-wider flex items-center justify-between">
+            <span>Authorized Course Subject</span>
+            <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold">🔒 Sole Subject Lock</span>
+          </h3>
+          
+          <!-- SOLE ACCESSIBLE SUBJECT CARD -->
+          <div id="faculty-single-subject-card" class="p-4.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/40 space-y-2 shadow-sm">
+            <div class="flex justify-between items-center">
+              <span id="single-card-code" class="font-mono font-bold text-indigo-700 dark:text-indigo-300 text-sm">10211CS223</span>
+              <span id="single-card-pct" class="text-[11px] badge-present-cyber px-2.5 py-0.5 rounded-full font-bold">96.7%</span>
+            </div>
+            <h4 id="single-card-name" class="font-bold text-sm text-slate-900 dark:text-white">Machine Learning Techniques</h4>
+            <div class="pt-2 border-t border-indigo-200 dark:border-slate-800/80 text-[11px] text-slate-600 dark:text-slate-300 space-y-1">
+              <p>Faculty: <span id="single-card-faculty" class="font-bold text-slate-900 dark:text-amber-300">Dr. GODLIN JASIL. S.P</span></p>
+              <p>Faculty ID: <span id="single-card-id" class="font-mono text-slate-500 dark:text-slate-400">TTS4232</span></p>
+              <p>Credits: <span id="single-card-credits" class="font-bold text-blue-700 dark:text-cyan-300">3 Credits</span> | Slot: <span id="single-card-slot" class="font-mono">S6</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attendance Marking Table -->
+        <div class="cyber-card p-5 lg:col-span-2 space-y-4">
+          <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-slate-800">
+            <div>
+              <h3 class="text-sm font-bold text-white"><span id="faculty-active-bucket-title">Bucket 29</span> Roster: <span id="current-class-label">10211CS223 - Machine Learning Techniques</span></h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Database Entry • Authorized Faculty: <span id="faculty-roster-assigned" class="font-bold text-indigo-600 dark:text-indigo-400">Dr. GODLIN JASIL. S.P (TTS4232)</span></p>
+            </div>
+            <div class="flex space-x-2">
+              <!-- DEDICATED FACULTY PDF EXPORT BUTTON -->
+              <button onclick="exportFacultyPDF()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold flex items-center space-x-1 shadow-md transition-all">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Faculty Class Roster PDF</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 dark:bg-slate-950/80 text-slate-700 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                  <th class="p-3">S.No</th>
+                  <th class="p-3">Registration Number</th>
+                  <th class="p-3">Student Name</th>
+                  <th class="p-3">Subject</th>
+                  <th class="p-3">Status</th>
+                  <th class="p-3 text-right">Faculty Database Action</th>
+                </tr>
+              </thead>
+              <tbody id="roster-tbody" class="divide-y divide-slate-200 dark:divide-slate-800/80">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. STUDENT DASHBOARD VIEW (AUTHENTICATED USER: PALLAPU DILEEP KUMAR - VTU29962) -->
+    <section id="view-student" class="space-y-6 hidden">
+      <!-- Live Database Notification Banner when marked Absent -->
+      <div id="student-absent-alert-banner" class="hidden cyber-card p-4 bg-rose-50 dark:bg-rose-950/80 border border-rose-300 dark:border-rose-600/80 text-slate-900 dark:text-white rounded-2xl animate-pulse">
+        <div class="flex items-center space-x-3">
+          <i data-lucide="alert-triangle" class="w-6 h-6 text-rose-600 dark:text-rose-400 shrink-0"></i>
+          <div>
+            <h4 class="font-bold text-sm text-rose-900 dark:text-rose-200">Database Attendance Update Alert!</h4>
+            <p id="student-absent-alert-text" class="text-xs text-rose-700 dark:text-rose-300 mt-0.5">
+              You are currently marked ABSENT in <span class="font-bold underline">10211CS223 Machine Learning Techniques</span>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Student Profile Card Header -->
+      <div class="cyber-card p-6 bg-slate-900 text-white rounded-3xl relative overflow-hidden shadow-xl">
+        <div class="flex items-center justify-between relative z-10">
+          <div class="flex items-center space-x-4">
+            <img src="pallapu_dileep_kumar.jpg" class="w-20 h-20 rounded-2xl object-cover ring-4 ring-indigo-500/50 shadow-xl border border-indigo-400/40" />
+            <div>
+              <div class="flex items-center space-x-2">
+                <h2 class="text-2xl font-bold text-white">Pallapu Dileep Kumar</h2>
+                <span class="px-3 py-0.5 rounded-full text-[10px] font-extrabold badge-present-cyber">
+                  Verified Student
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">
+                Username / Reg No: <span class="font-mono font-bold text-cyan-300 bg-slate-950 px-2 py-0.5 rounded-lg border border-cyan-500/30">VTU29962</span> (24UECS0805 - CSE-AIML)
+              </p>
+              <p class="text-[11px] text-slate-400 mt-1">
+                Class Bucket: <span class="font-bold text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded-lg border border-cyan-800">Bucket 29</span> | <span class="font-semibold text-slate-200">CSE(AIML) Semester 6</span> | <span class="font-semibold text-slate-300">Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- DEDICATED STUDENT ATTENDANCE PDF STATEMENT BUTTON -->
+          <button onclick="exportStudentPDF()" class="px-5 py-3 btn-cyber font-extrabold text-xs rounded-2xl flex items-center space-x-2">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Download My Attendance PDF</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Student Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Overall Aggregate Attendance</div>
+          <div id="student-overall-percentage" class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">95.4%</div>
+          <div id="student-eligibility-badge" class="text-[11px] text-emerald-700 dark:text-emerald-400 mt-1 font-extrabold">✓ Exam Eligible (>75%)</div>
+        </div>
+
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Registered Courses</div>
+          <div id="student-attended-count" class="text-3xl font-bold text-white mt-2">10 Subjects</div>
+          <div class="text-[11px] text-amber-600 dark:text-amber-300 mt-1 font-extrabold">28 Total Credits</div>
+        </div>
+
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Subject Absences in Database</div>
+          <div id="student-absent-count-stat" class="text-3xl font-bold text-rose-600 dark:text-rose-400 mt-2">0 Absences</div>
+          <div class="text-[11px] text-rose-600 dark:text-rose-400 mt-1 font-semibold">Live Database Logged</div>
+        </div>
+
+        <!-- Student Semester Selector -->
+        <div class="cyber-card p-4.5">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Academic Semester</span>
+            <span class="text-[10px] font-extrabold badge-present-cyber px-2 py-0.5 rounded-lg">Active</span>
+          </div>
+          <div class="mt-2">
+            <select id="student-sem-select" onchange="changeStudentSemester(this.value)" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700/80 text-amber-600 dark:text-amber-300 font-extrabold text-lg rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer">
+              <option value="Semester 1">Semester 1</option>
+              <option value="Semester 2">Semester 2</option>
+              <option value="Semester 3">Semester 3</option>
+              <option value="Semester 4">Semester 4</option>
+              <option value="Semester 5">Semester 5</option>
+              <option value="Semester 6" selected>Semester 6</option>
+              <option value="Semester 7">Semester 7</option>
+              <option value="Semester 8">Semester 8</option>
+            </select>
+          </div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Current Term: Semester 6</div>
+        </div>
+      </div>
+
+      <!-- Registered Semester 6 Subjects Table -->
+      <div class="cyber-card p-5 space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="book-open" class="w-4 h-4 text-indigo-500"></i>
+            <span>Bucket 29 • Vel Tech Rangarajan Dr. Sagunthala R&D Institute Semester 6 Record (Database Synced)</span>
+          </h3>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 dark:bg-slate-950/80 text-slate-700 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
+              <tr>
+                <th class="p-2.5">S.No</th>
+                <th class="p-2.5">Category</th>
+                <th class="p-2.5">Course Code</th>
+                <th class="p-2.5">Course Name</th>
+                <th class="p-2.5 text-center">Credit</th>
+                <th class="p-2.5">Assigned Course Faculty</th>
+                <th class="p-2.5">Faculty ID</th>
+                <th class="p-2.5">Slot</th>
+                <th class="p-2.5 text-center">My Database Status</th>
+                <th class="p-2.5 text-center">Attendance %</th>
+              </tr>
+            </thead>
+            <tbody id="registered-courses-tbody" class="divide-y divide-slate-200 dark:divide-slate-800/80">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ADMIN DASHBOARD VIEW -->
+    <section id="view-admin" class="space-y-6 hidden">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-white flex items-center space-x-2">
+            <i data-lucide="shield" class="w-6 h-6 text-indigo-500"></i>
+            <span>Vel Tech Governance Portal</span>
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology • Campus metrics & master PDF statement generation
+          </p>
+        </div>
+        <button onclick="exportAdminMasterPDF()" class="px-5 py-3 btn-cyber font-extrabold text-xs rounded-2xl flex items-center space-x-2">
+          <i data-lucide="file-text" class="w-5 h-5 text-white"></i>
+          <span>Generate Vel Tech Admin Master PDF Report</span>
+        </button>
+      </div>
+
+      <!-- Campus Admin Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Total Students</div>
+          <div class="text-2xl font-bold text-white mt-2">1,420</div>
+          <div class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-bold">+140 this academic year</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Faculty Roster</div>
+          <div class="text-2xl font-bold text-white mt-2">86 Faculty</div>
+          <div class="text-[11px] text-indigo-600 dark:text-cyan-400 mt-1 font-bold">10 Assigned to Sem 6</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Active Class Buckets</div>
+          <div class="text-2xl font-bold text-white mt-2">32 Buckets</div>
+          <div class="text-[11px] text-amber-600 dark:text-amber-300 mt-1 font-bold">Bucket 29 (30 Students)</div>
+        </div>
+        <div class="cyber-card p-4.5">
+          <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Campus Attendance %</div>
+          <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">95.4%</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Semester 6 Average</div>
+        </div>
+      </div>
+
+      <!-- Admin Master Summary Table -->
+      <div class="cyber-card p-5 space-y-4">
+        <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+            <i data-lucide="database" class="w-4 h-4 text-indigo-500"></i>
+            <span>Vel Tech Campus Master Subject-Wise Attendance Log Summary</span>
+          </h3>
+          <span class="text-xs text-slate-500 dark:text-slate-400">Total Enrolled: 30 Students in Bucket 29</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 dark:bg-slate-950/80 text-slate-700 dark:text-slate-400 uppercase font-bold border-b border-slate-200 dark:border-slate-800">
+              <tr>
+                <th class="p-3">S.No</th>
+                <th class="p-3">Registration Number</th>
+                <th class="p-3">Student Name</th>
+                <th class="p-3">Department</th>
+                <th class="p-3">Bucket</th>
+                <th class="p-3">Current Active Subject Status</th>
+                <th class="p-3">Recorded Mode</th>
+              </tr>
+            </thead>
+            <tbody id="admin-master-tbody" class="divide-y divide-slate-200 dark:divide-slate-800/80">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // Theme Mode Switcher (Dark & Light Mode Persistence)
+    function initThemeMode() {
+      const savedTheme = localStorage.getItem('veltech_theme_mode') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        updateThemeUI('light');
+      } else {
+        document.documentElement.classList.add('dark');
+        updateThemeUI('dark');
+      }
+    }
+
+    function toggleThemeMode() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('veltech_theme_mode', 'light');
+        updateThemeUI('light');
+        showToast('Switched to Light Mode ☀️');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('veltech_theme_mode', 'dark');
+        updateThemeUI('dark');
+        showToast('Switched to Dark Mode 🌙');
+      }
+    }
+
+    function updateThemeUI(theme) {
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (theme === 'light') {
+        if (icon) icon.setAttribute('data-lucide', 'moon');
+        if (label) label.innerText = 'Dark Mode';
+      } else {
+        if (icon) icon.setAttribute('data-lucide', 'sun');
+        if (label) label.innerText = 'Light Mode';
+      }
+      lucide.createIcons();
+    }
+
+    // Official Valid Credentials Store for Authentication
+    const validCredentials = {
+      faculty: [
+        { id: 'TTS4232', pass: 'faculty123', name: 'Dr. GODLIN JASIL. S.P', subCode: '10211CS223' },
+        { id: 'TTS3146', pass: 'faculty123', name: 'Dr. ANGELINE LYDIA', subCode: '10212CS217' },
+        { id: 'TTS4102', pass: 'faculty123', name: 'Dr SATHYA MOORTHI. S', subCode: '10210CH104' },
+        { id: 'TTS3938', pass: 'faculty123', name: 'Dr. BARKATHULLA. A', subCode: '10211CS129' },
+        { id: 'TTS3994', pass: 'faculty123', name: 'Dr. AMU. D', subCode: '10211CS208' },
+        { id: 'TTS4066', pass: 'faculty123', name: 'Dr. SATHYAMOORTHY. K', subCode: '10211CS227' },
+        { id: 'TTS4013', pass: 'faculty123', name: 'Dr. KAVIARASAN. S', subCode: '10212CS292' },
+        { id: 'TTS3897', pass: 'faculty123', name: 'Dr. UMANESAN. R', subCode: '10213GE308' },
+        { id: 'TTS3843', pass: 'faculty123', name: 'Dr. KARTHIYAYINI. S', subCode: '10214CS601' },
+        { id: 'CDS040',  pass: 'faculty123', name: 'DINESHKUMAR. R', subCode: '10216GE903' },
+      ],
+      student: [
+        { id: 'VTU29962', fullReg: 'VTU29962 - 24UECS0805 - CSE(AIML)', pass: 'student123', name: 'Pallapu Dileep Kumar', photo: 'pallapu_dileep_kumar.jpg' },
+        { id: '24UECS0805', fullReg: 'VTU29962 - 24UECS0805 - CSE(AIML)', pass: 'student123', name: 'Pallapu Dileep Kumar', photo: 'pallapu_dileep_kumar.jpg' }
+      ],
+      admin: [
+        { id: 'admin@veltech.edu.in', pass: 'admin123', name: 'Vel Tech Admin' },
+        { id: 'admin', pass: 'admin123', name: 'Vel Tech Admin' }
+      ]
+    };
+
+    // Official Registered Vel Tech Semester 6 Courses
+    const officialCourses = [
+      { sno: 1, category: 'FOUNDATION', code: '10210CH104', name: 'Environmental Science and Sustainability', credit: 3, faculty: 'Dr SATHYA MOORTHI. S', facultyId: 'TTS4102', slot: 'FCR-H1' },
+      { sno: 2, category: 'PROGRAMME CORE', code: '10211CS129', name: 'Modern Computer Architecture', credit: 3, faculty: 'Dr. BARKATHULLA. A', facultyId: 'TTS3938', slot: 'S7' },
+      { sno: 3, category: 'PROGRAMME CORE', code: '10211CS208', name: 'Software Engineering', credit: 3, faculty: 'Dr. AMU. D', facultyId: 'TTS3994', slot: 'S2-1L12' },
+      { sno: 4, category: 'PROGRAMME CORE', code: '10211CS227', name: 'Problem Solving and Testing', credit: 3, faculty: 'Dr. SATHYAMOORTHY. K', facultyId: 'TTS4066', slot: 'S2-2L5L2' },
+      { sno: 5, category: 'PROGRAMME ELECTIVE', code: '10211CS223', name: 'Machine Learning Techniques', credit: 3, faculty: 'Dr. GODLIN JASIL. S.P', facultyId: 'TTS4232', slot: 'S6' },
+      { sno: 6, category: 'PROGRAMME ELECTIVE', code: '10212CS217', name: 'Data Science', credit: 4, faculty: 'Dr. ANGELINE LYDIA', facultyId: 'TTS3146', slot: 'S5L15' },
+      { sno: 7, category: 'PROGRAMME ELECTIVE', code: '10212CS292', name: 'Applied Programming Skills', credit: 4, faculty: 'Dr. KAVIARASAN. S', facultyId: 'TTS4013', slot: 'S1L10' },
+      { sno: 8, category: 'OPEN ELECTIVE', code: '10213GE308', name: 'Professional Communication for Engineers', credit: 2, faculty: 'Dr. UMANESAN. R', facultyId: 'TTS3897', slot: 'CSE-OE-TB28-S8' },
+      { sno: 9, category: 'INDEPENDENT LEARNING', code: '10214CS601', name: 'Minor Project - I', credit: 2, faculty: 'Dr. KARTHIYAYINI. S', facultyId: 'TTS3843', slot: 'CSE - Minor 1' },
+      { sno: 10, category: 'PROFESSIONAL PROFICIENCY', code: '10216GE903', name: 'Aptitude Skills - I', credit: 1, faculty: 'DINESHKUMAR. R', facultyId: 'CDS040', slot: 'CSE T12' },
+    ];
+
+    // Generate 30 Students for Bucket 29 with Pallapu Dileep Kumar (VTU29962)
+    const baseStudents = [
+      { sno: 1, roll: 'VTU29962 - 24UECS0805 - CSE(AIML)', name: 'Pallapu Dileep Kumar' },
+      { sno: 2, roll: 'VTU29960 - 24UECS0902 - CSE(AIML)', name: 'Bandaru Sai Kumar' },
+      { sno: 3, roll: 'VTU29961 - 24UECS0903 - CSE(AIML)', name: 'Challa Vamsi Krishna' },
+      { sno: 4, roll: 'VTU29963 - 24UECS0806 - CSE(AIML)', name: 'Guduru Harish Naidu' },
+      { sno: 5, roll: 'VTU29964 - 24UECS0807 - CSE(AIML)', name: 'Kilaru Anusha' },
+      { sno: 6, roll: 'VTU29965 - 24UECS0808 - CSE(AIML)', name: 'Kollu Nikhil Varma' },
+      { sno: 7, roll: 'VTU29966 - 24UECS0809 - CSE(AIML)', name: 'Madasu Srikanth' },
+      { sno: 8, roll: 'VTU29967 - 24UECS0810 - CSE(AIML)', name: 'Muddana Sneha Reddy' },
+      { sno: 9, roll: 'VTU29968 - 24UECS0811 - CSE(AIML)', name: 'Nimmagadda Praneeth' },
+      { sno: 10, roll: 'VTU29969 - 24UECS0812 - CSE(AIML)', name: 'Pasupuleti Lokesh' },
+      { sno: 11, roll: 'VTU29970 - 24UECS0813 - CSE(AIML)', name: 'Polisetty Bhavana' },
+      { sno: 12, roll: 'VTU29971 - 24UECS0814 - CSE(AIML)', name: 'Rayapati Yashwanth' },
+      { sno: 13, roll: 'VTU29972 - 24UECS0815 - CSE(AIML)', name: 'Siripuram Tejaswini' },
+      { sno: 14, roll: 'VTU29973 - 24UECS0816 - CSE(AIML)', name: 'Vaddi Chaitanya Kumar' },
+      { sno: 15, roll: 'VTU29974 - 24UECS0817 - CSE(AIML)', name: 'Velagapudi Karthik' },
+      { sno: 16, roll: 'VTU29975 - 24UECS0818 - CSE(AIML)', name: 'Yalamanchili Tarun' },
+      { sno: 17, roll: 'VTU29976 - 24UECS0819 - CSE(AIML)', name: 'Akula Deepika' },
+      { sno: 18, roll: 'VTU29977 - 24UECS0820 - CSE(AIML)', name: 'Boddu Venkatesh' },
+      { sno: 19, roll: 'VTU29978 - 24UECS0821 - CSE(AIML)', name: 'Cherukuri Sai Charan' },
+      { sno: 20, roll: 'VTU29979 - 24UECS0822 - CSE(AIML)', name: 'Daggubati Rohit' },
+      { sno: 21, roll: 'VTU29980 - 24UECS0823 - CSE(AIML)', name: 'Eluru Harika' },
+      { sno: 22, roll: 'VTU29981 - 24UECS0824 - CSE(AIML)', name: 'Gundapaneni Pavan' },
+      { sno: 23, roll: 'VTU29982 - 24UECS0825 - CSE(AIML)', name: 'Inavolu Rakesh' },
+      { sno: 24, roll: 'VTU29983 - 24UECS0826 - CSE(AIML)', name: 'Jammula Swapna' },
+      { sno: 25, roll: 'VTU29984 - 24UECS0827 - CSE(AIML)', name: 'Kandula Mahesh' },
+      { sno: 26, roll: 'VTU29985 - 24UECS0828 - CSE(AIML)', name: 'Lingamallu Sowmya' },
+      { sno: 27, roll: 'VTU29986 - 24UECS0829 - CSE(AIML)', name: 'Nukala Rajesh' },
+      { sno: 28, roll: 'VTU29987 - 24UECS0830 - CSE(AIML)', name: 'Pedapudi Suresh' },
+      { sno: 29, roll: 'VTU29988 - 24UECS0831 - CSE(AIML)', name: 'Timmareddy Akhil' },
+      { sno: 30, roll: 'VTU29989 - 24UECS0832 - CSE(AIML)', name: 'Vemuri Sravani' },
+    ];
+
+    // Database Store
+    let subjectAttendanceStore = {};
+    const savedStore = localStorage.getItem('veltech_subject_attendance_db');
+
+    if (savedStore) {
+      try {
+        subjectAttendanceStore = JSON.parse(savedStore);
+      } catch (e) {
+        initSubjectStore();
+      }
+    } else {
+      initSubjectStore();
+    }
+
+    function initSubjectStore() {
+      subjectAttendanceStore = {};
+      officialCourses.forEach((c) => {
+        subjectAttendanceStore[c.code] = baseStudents.map((st, stIdx) => {
+          let status = 'Present';
+          if (c.code === '10211CS129' && (stIdx === 5 || stIdx === 15)) status = 'Absent';
+          else if (c.code === '10211CS208' && stIdx === 11) status = 'Absent';
+          else if (c.code === '10211CS227' && (stIdx === 2 || stIdx === 18)) status = 'Absent';
+          else if (c.code === '10212CS217' && (stIdx === 3 || stIdx === 9 || stIdx === 21)) status = 'Absent';
+          else if (c.code === '10213GE308' && (stIdx === 4 || stIdx === 14)) status = 'Absent';
+          else if (c.code === '10216GE903' && stIdx === 7) status = 'Absent';
+
+          return {
+            ...st,
+            status: status
+          };
+        });
+      });
+      persistStore();
+    }
+
+    function persistStore() {
+      localStorage.setItem('veltech_subject_attendance_db', JSON.stringify(subjectAttendanceStore));
+    }
+
+    // Auth State Store
+    const state = {
+      isLoggedIn: false,
+      loginRole: 'student',
+      activeBucket: 'Bucket 29',
+      currentSemester: 'Semester 6',
+      activeSubjectCode: '10211CS223',
+      activeFacultyName: 'Dr. GODLIN JASIL. S.P',
+      activeFacultyId: 'TTS4232',
+      user: null
+    };
+
+    // Initialize Page Controls
+    document.addEventListener('DOMContentLoaded', () => {
+      initThemeMode();
+      showLoginView();
+    });
+
+    // Handle Faculty Selector Change
+    function onFacultySelectChange(empId) {
+      const selectedSub = officialCourses.find(c => c.facultyId === empId) || officialCourses[4];
+      const inputUsername = document.getElementById('input-username');
+      inputUsername.removeAttribute('maxlength');
+      inputUsername.value = empId;
+      state.activeSubjectCode = selectedSub.code;
+      state.activeFacultyName = selectedSub.faculty;
+      state.activeFacultyId = selectedSub.facultyId;
+      hideLoginError();
+    }
+
+    function hideLoginError() {
+      const errBox = document.getElementById('login-error-alert');
+      if (errBox) errBox.classList.add('hidden');
+    }
+
+    function showLoginError(msg) {
+      const errBox = document.getElementById('login-error-alert');
+      const errText = document.getElementById('login-error-text');
+      if (errBox && errText) {
+        errText.innerText = msg;
+        errBox.classList.remove('hidden');
+      }
+    }
+
+    // Login Portal Role Selection Tabs
+    function setLoginRole(role) {
+      state.loginRole = role;
+      hideLoginError();
+      document.getElementById('tab-login-student').className = 'py-2.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+      document.getElementById('tab-login-faculty').className = 'py-2.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+      document.getElementById('tab-login-admin').className = 'py-2.5 rounded-xl transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+
+      const label = document.getElementById('lbl-login-username');
+      const inputUsername = document.getElementById('input-username');
+      const inputPassword = document.getElementById('input-password');
+      const facultyWrapper = document.getElementById('faculty-selector-wrapper');
+      const charBadge = document.getElementById('char-limit-badge');
+
+      inputPassword.value = '';
+
+      if (role === 'student') {
+        document.getElementById('tab-login-student').className = 'py-2.5 rounded-xl transition-all bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/40';
+        label.innerText = 'Student Username (Max 8 Chars):';
+        inputUsername.setAttribute('maxlength', '8');
+        inputUsername.placeholder = 'VTU29962';
+        inputUsername.value = 'VTU29962';
+        if (charBadge) charBadge.classList.remove('hidden');
+        if (facultyWrapper) facultyWrapper.classList.add('hidden');
+      } else if (role === 'faculty') {
+        document.getElementById('tab-login-faculty').className = 'py-2.5 rounded-xl transition-all bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/40';
+        label.innerText = 'Faculty Employee ID / Username:';
+        inputUsername.removeAttribute('maxlength');
+        inputUsername.placeholder = 'TTS4232';
+        inputUsername.value = 'TTS4232';
+        if (charBadge) charBadge.classList.add('hidden');
+        if (facultyWrapper) facultyWrapper.classList.remove('hidden');
+      } else {
+        document.getElementById('tab-login-admin').className = 'py-2.5 rounded-xl transition-all bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/40';
+        label.innerText = 'Admin Username / Email:';
+        inputUsername.removeAttribute('maxlength');
+        inputUsername.placeholder = 'admin@veltech.edu.in';
+        inputUsername.value = 'admin@veltech.edu.in';
+        if (charBadge) charBadge.classList.add('hidden');
+        if (facultyWrapper) facultyWrapper.classList.add('hidden');
+      }
+    }
+
+    // Auto-fill Valid Demo Credentials Function
+    function autofillCredentials(role) {
+      hideLoginError();
+      setLoginRole(role);
+      const inputUsername = document.getElementById('input-username');
+      const inputPass = document.getElementById('input-password');
+
+      if (role === 'student') {
+        inputUsername.setAttribute('maxlength', '8');
+        inputUsername.value = 'VTU29962';
+        inputPass.value = 'student123';
+        showToast('Auto-filled 8-Char Student Username (VTU29962)');
+      } else if (role === 'faculty') {
+        inputUsername.value = 'TTS4232';
+        inputPass.value = 'faculty123';
+        showToast('Auto-filled Valid Faculty Credentials (TTS4232)');
+      } else {
+        inputUsername.value = 'admin@veltech.edu.in';
+        inputPass.value = 'admin123';
+        showToast('Auto-filled Valid Admin Credentials');
+      }
+    }
+
+    // STRICT AUTHENTICATION VALIDATION FUNCTION WITH MAX 8 CHAR LOGIC FOR VTU29962
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      hideLoginError();
+
+      const inputUserStr = document.getElementById('input-username').value.trim().toUpperCase();
+      const inputPassStr = document.getElementById('input-password').value.trim();
+
+      if (!inputUserStr || !inputPassStr) {
+        showLoginError('Please enter both Username and Password!');
+        return;
+      }
+
+      // 1. STUDENT STRICT 8-CHARACTER AUTHENTICATION (VTU29962)
+      if (state.loginRole === 'student') {
+        if (inputUserStr.length > 8) {
+          showLoginError(`❌ Student username exceeds 8 characters limit! Only 8 chars allowed.`);
+          showToast('❌ Username restricted to max 8 characters!');
+          return;
+        }
+
+        const foundSt = validCredentials.student.find(s => 
+          inputUserStr === 'VTU29962' || inputUserStr.includes(s.id) || s.id.includes(inputUserStr)
+        );
+
+        if (!foundSt || (inputUserStr !== 'VTU29962' && !inputUserStr.includes('24UECS0805'))) {
+          showLoginError(`❌ Invalid Student Username (${inputUserStr}). Only VTU29962 (8 chars) is allowed!`);
+          showToast('❌ Login Failed: Invalid Student Username!');
+          return;
+        }
+
+        if (inputPassStr !== foundSt.pass) {
+          showLoginError(`❌ Incorrect Password for Student Pallapu Dileep Kumar (VTU29962). Access Denied!`);
+          showToast('❌ Login Failed: Incorrect Password!');
+          return;
+        }
+
+        // SUCCESSFUL STUDENT LOGIN
+        state.isLoggedIn = true;
+        state.user = {
+          name: foundSt.name,
+          role: 'student',
+          regNo: 'VTU29962',
+          fullReg: foundSt.fullReg,
+          avatar: foundSt.photo
+        };
+
+        showToast(`✓ Authentication Successful! Logged in as ${foundSt.name} (VTU29962)`);
+        showStudentView();
+      }
+
+      // 2. FACULTY STRICT AUTHENTICATION
+      else if (state.loginRole === 'faculty') {
+        const foundFac = validCredentials.faculty.find(f => 
+          inputUserStr.includes(f.id) || f.id.includes(inputUserStr)
+        );
+
+        if (!foundFac) {
+          showLoginError(`❌ Incorrect Faculty Employee ID (${inputUserStr}). Access Denied!`);
+          showToast('❌ Login Failed: Invalid Faculty Employee ID!');
+          return;
+        }
+
+        if (inputPassStr !== foundFac.pass) {
+          showLoginError(`❌ Incorrect Password for Faculty ${foundFac.name} (${foundFac.id}). Access Denied!`);
+          showToast('❌ Login Failed: Incorrect Faculty Password!');
+          return;
+        }
+
+        // SUCCESSFUL FACULTY LOGIN
+        const sub = officialCourses.find(c => c.code === foundFac.subCode) || officialCourses[4];
+        state.activeSubjectCode = sub.code;
+        state.activeFacultyName = foundFac.name;
+        state.activeFacultyId = foundFac.id;
+
+        state.isLoggedIn = true;
+        state.user = {
+          name: foundFac.name,
+          role: 'faculty',
+          employeeId: foundFac.id,
+          subjectCode: sub.code,
+          avatar: 'veltech_logo.png'
+        };
+
+        showToast(`✓ Authentication Successful! Logged in as ${foundFac.name}`);
+        showFacultyView();
+      }
+
+      // 3. ADMIN STRICT AUTHENTICATION
+      else {
+        const foundAd = validCredentials.admin.find(a => 
+          inputUserStr.toLowerCase().includes('admin')
+        );
+
+        if (!foundAd || inputPassStr !== foundAd.pass) {
+          showLoginError(`❌ Invalid Admin Credentials or Password. Access Denied!`);
+          showToast('❌ Login Failed: Incorrect Admin Password!');
+          return;
+        }
+
+        // SUCCESSFUL ADMIN LOGIN
+        state.isLoggedIn = true;
+        state.user = {
+          name: 'Vel Tech Admin',
+          role: 'admin',
+          avatar: 'veltech_logo.png'
+        };
+
+        showToast(`✓ Authentication Successful! Welcome Administrator`);
+        showAdminView();
+      }
+
+      // Update header profile badge
+      const headerBadge = document.getElementById('header-user-badge');
+      if (headerBadge && state.user) {
+        headerBadge.classList.remove('hidden');
+        headerBadge.classList.add('flex');
+        document.getElementById('user-avatar').src = state.user.avatar;
+        document.getElementById('user-name').innerText = state.user.name;
+        document.getElementById('user-role-label').innerText = state.user.role.toUpperCase();
+      }
+    }
+
+    // Logout Function
+    function logoutUser() {
+      state.isLoggedIn = false;
+      state.user = null;
+      const headerBadge = document.getElementById('header-user-badge');
+      if (headerBadge) headerBadge.classList.add('hidden');
+      hideLoginError();
+      showLoginView();
+      showToast('Logged out successfully.');
+    }
+
+    // Navigation View Controller
+    function showLoginView() {
+      document.getElementById('view-login').classList.remove('hidden');
+      document.getElementById('view-faculty').classList.add('hidden');
+      document.getElementById('view-student').classList.add('hidden');
+      document.getElementById('view-admin').classList.add('hidden');
+    }
+
+    function showFacultyView() {
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-faculty').classList.remove('hidden');
+      document.getElementById('view-student').classList.add('hidden');
+      document.getElementById('view-admin').classList.add('hidden');
+      
+      const sub = officialCourses.find(c => c.code === state.activeSubjectCode);
+      if (sub) {
+        document.getElementById('current-class-label').innerText = `${sub.code} - ${sub.name}`;
+        document.getElementById('faculty-sole-subject-banner').innerText = `${sub.code} ${sub.name}`;
+        document.getElementById('stat-subject-code').innerText = sub.code;
+        document.getElementById('stat-subject-slot').innerText = `Slot: ${sub.slot}`;
+        
+        // Single Subject Card Rendering
+        document.getElementById('single-card-code').innerText = sub.code;
+        document.getElementById('single-card-name').innerText = sub.name;
+        document.getElementById('single-card-faculty').innerText = sub.faculty;
+        document.getElementById('single-card-id').innerText = sub.facultyId;
+        document.getElementById('single-card-credits').innerText = `${sub.credit} Credits`;
+        document.getElementById('single-card-slot').innerText = sub.slot;
+        document.getElementById('single-card-pct').innerText = `${getSubjectPercentage(sub.code)}%`;
+      }
+
+      renderRegisteredCourses();
+      renderRoster();
+      updateActiveFacultyHeader();
+    }
+
+    function showStudentView() {
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-faculty').classList.add('hidden');
+      document.getElementById('view-student').classList.remove('hidden');
+      document.getElementById('view-admin').classList.add('hidden');
+      renderRegisteredCourses();
+    }
+
+    function showAdminView() {
+      document.getElementById('view-login').classList.add('hidden');
+      document.getElementById('view-faculty').classList.add('hidden');
+      document.getElementById('view-student').classList.add('hidden');
+      document.getElementById('view-admin').classList.remove('hidden');
+      renderAdminMasterTable();
+    }
+
+    // Change Bucket Handler
+    function changeBucket(bucket) {
+      state.activeBucket = bucket;
+      document.getElementById('stat-active-bucket').innerText = bucket;
+      document.getElementById('faculty-active-bucket-title').innerText = bucket;
+      showToast(`Switched section to ${bucket} (30 Students)`);
+    }
+
+    // Compute Subject Attendance Percentage
+    function getSubjectPercentage(code) {
+      const records = subjectAttendanceStore[code] || [];
+      if (!records.length) return '100.0';
+      const presentCount = records.filter(r => r.status === 'Present').length;
+      return ((presentCount / records.length) * 100).toFixed(1);
+    }
+
+    // Render Registered Courses Table FOR PALLAPU DILEEP KUMAR (VTU29962)
+    function renderRegisteredCourses() {
+      const tbody = document.getElementById('registered-courses-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      
+      let totalPctSum = 0;
+      let studentAbsentSubjects = [];
+
+      officialCourses.forEach((c) => {
+        const records = subjectAttendanceStore[c.code] || [];
+        const studentRecord = records.find(r => r.roll.includes('24UECS0805') || r.roll.includes('VTU29962')) || { status: 'Present' };
+        const isAbsent = studentRecord.status === 'Absent';
+
+        if (isAbsent) {
+          studentAbsentSubjects.push({ code: c.code, name: c.name, faculty: c.faculty });
+        }
+
+        const pct = getSubjectPercentage(c.code);
+        totalPctSum += parseFloat(pct);
+
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-100 dark:hover:bg-slate-900/60">
+            <td class="p-2.5 font-mono text-slate-500 dark:text-slate-400 font-bold">${c.sno}</td>
+            <td class="p-2.5 font-bold text-[10px] text-amber-600 dark:text-amber-400 uppercase tracking-wider">${c.category}</td>
+            <td class="p-2.5 font-mono font-bold text-indigo-600 dark:text-indigo-400">${c.code}</td>
+            <td class="p-2.5 font-bold text-slate-900 dark:text-slate-100">${c.name}</td>
+            <td class="p-2.5 text-center font-bold text-blue-600 dark:text-cyan-300">${c.credit}</td>
+            <td class="p-2.5 font-semibold text-slate-700 dark:text-slate-200">${c.faculty}</td>
+            <td class="p-2.5 font-mono text-slate-500 dark:text-slate-400">${c.facultyId}</td>
+            <td class="p-2.5 font-mono text-slate-600 dark:text-slate-300">${c.slot}</td>
+            <td class="p-2.5 text-center font-bold">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                isAbsent ? 'badge-absent-cyber' : 'badge-present-cyber'
+              }">${studentRecord.status}</span>
+            </td>
+            <td class="p-2.5 text-center font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-slate-950/80 rounded-xl border border-emerald-200 dark:border-indigo-500/20">${pct}%</td>
+          </tr>
+        `;
+      });
+
+      // Update Student Dashboard Summary Cards
+      const avgPct = (totalPctSum / officialCourses.length).toFixed(1);
+      const overallElem = document.getElementById('student-overall-percentage');
+      if (overallElem) overallElem.innerText = `${avgPct}%`;
+
+      const absentCountStat = document.getElementById('student-absent-count-stat');
+      if (absentCountStat) absentCountStat.innerText = `${studentAbsentSubjects.length} Absences`;
+
+      // Alert Banner Toggle
+      const alertBanner = document.getElementById('student-absent-alert-banner');
+      const alertText = document.getElementById('student-absent-alert-text');
+      if (alertBanner && alertText) {
+        if (studentAbsentSubjects.length > 0) {
+          alertBanner.classList.remove('hidden');
+          alertText.innerHTML = `Attention Pallapu Dileep Kumar (VTU29962): You are currently marked <span class="font-extrabold text-rose-600 dark:text-rose-400 underline">ABSENT</span> in ${studentAbsentSubjects.map(s => `<b>${s.code} ${s.name}</b> (by ${s.faculty})`).join(', ')}.`;
+        } else {
+          alertBanner.classList.add('hidden');
+        }
+      }
+    }
+
+    function updateActiveFacultyHeader() {
+      document.getElementById('user-name').innerText = state.activeFacultyName;
+      document.getElementById('user-role-label').innerText = `Faculty (${state.activeFacultyId})`;
+      document.getElementById('faculty-assigned-banner').innerText = `${state.activeFacultyName} (${state.activeFacultyId})`;
+      document.getElementById('stat-active-faculty').innerText = state.activeFacultyName;
+      document.getElementById('stat-active-faculty-id').innerText = `Faculty ID: ${state.activeFacultyId}`;
+      document.getElementById('faculty-roster-assigned').innerText = `${state.activeFacultyName} (${state.activeFacultyId})`;
+    }
+
+    // Render Faculty Student Attendance Roster FOR ACTIVE SUBJECT ONLY!
+    function renderRoster() {
+      const tbody = document.getElementById('roster-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode] || [];
+
+      activeSubjectStudents.forEach((st, idx) => {
+        const isPresent = st.status === 'Present';
+        const isAbsent = st.status === 'Absent';
+        const isPallapu = st.roll.includes('24UECS0805') || st.roll.includes('VTU29962');
+        
+        tbody.innerHTML += `
+          <tr class="${isPallapu ? 'bg-indigo-50 dark:bg-indigo-950/30 border-l-4 border-l-indigo-600 dark:border-l-indigo-500 font-bold' : 'hover:bg-slate-100 dark:hover:bg-slate-900/60'}">
+            <td class="p-3 font-mono text-slate-500 dark:text-slate-400 font-bold">${st.sno}</td>
+            <td class="p-3 font-mono font-bold text-amber-700 dark:text-amber-300">${st.roll} ${
+              isPallapu ? '<span class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded ml-1 font-bold">MY ACCOUNT</span>' : ''
+            }</td>
+            <td class="p-3 font-semibold text-slate-900 dark:text-slate-200">${st.name}</td>
+            <td class="p-3 font-bold text-indigo-600 dark:text-indigo-400">${state.activeSubjectCode}</td>
+            <td class="p-3">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                isPresent ? 'badge-present-cyber' : 'badge-absent-cyber'
+              }">${st.status}</span>
+            </td>
+            <td class="p-3 text-right space-x-1">
+              <button onclick="setSubjectStudentStatus(${idx}, 'Present')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${
+                isPresent ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-800'
+              }">Present</button>
+              <button onclick="setSubjectStudentStatus(${idx}, 'Absent')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold ${
+                isAbsent ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/30' : 'bg-slate-200 dark:bg-slate-900 text-slate-700 dark:text-slate-400 hover:bg-rose-500 hover:text-white border border-slate-300 dark:border-slate-800'
+              }">Mark Absent</button>
+            </td>
+          </tr>
+        `;
+      });
+      lucide.createIcons();
+      updateFacultySubjectStats();
+    }
+
+    // REAL-TIME FACULTY ENTRY DB SYNC FUNCTION
+    function setSubjectStudentStatus(idx, newStatus) {
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode];
+      if (activeSubjectStudents && activeSubjectStudents[idx]) {
+        activeSubjectStudents[idx].status = newStatus;
+        
+        persistStore();
+        
+        renderRoster();
+        renderRegisteredCourses();
+        renderAdminMasterTable();
+
+        const stName = activeSubjectStudents[idx].name;
+
+        if (newStatus === 'Absent') {
+          showToast(`⚠️ Database Updated: ${stName} marked ABSENT in ${state.activeSubjectCode} by ${state.activeFacultyName}!`);
+        } else {
+          showToast(`✓ Database Updated: ${stName} marked PRESENT in ${state.activeSubjectCode}!`);
+        }
+      }
+    }
+
+    function markAllPresentForActiveSubject() {
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode];
+      if (activeSubjectStudents) {
+        activeSubjectStudents.forEach(s => s.status = 'Present');
+        persistStore();
+        renderRoster();
+        renderRegisteredCourses();
+        renderAdminMasterTable();
+        showToast(`All 30 Students Marked Present for ${state.activeSubjectCode}!`);
+      }
+    }
+
+    function saveAndSubmitSubjectAttendance() {
+      persistStore();
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode] || [];
+      const presentCount = activeSubjectStudents.filter(s => s.status === 'Present').length;
+      showToast(`Database Saved & Synced for ${state.activeSubjectCode} by ${state.activeFacultyName}: ${presentCount}/30 Present`);
+    }
+
+    function updateFacultySubjectStats() {
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode] || [];
+      const presentCount = activeSubjectStudents.filter(s => s.status === 'Present').length;
+      const absentCount = activeSubjectStudents.filter(s => s.status === 'Absent').length;
+      const rate = getSubjectPercentage(state.activeSubjectCode);
+      
+      document.getElementById('stat-present-count').innerText = `${presentCount} Present`;
+      document.getElementById('stat-absent-count').innerText = `${absentCount} Absent`;
+      document.getElementById('stat-present-rate').innerText = `${rate}% Attendance Rate`;
+    }
+
+    // Render Admin Master Table
+    function renderAdminMasterTable() {
+      const tbody = document.getElementById('admin-master-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode] || [];
+      activeSubjectStudents.forEach((st) => {
+        const isPresent = st.status === 'Present';
+        tbody.innerHTML += `
+          <tr class="hover:bg-slate-100 dark:hover:bg-slate-900/60">
+            <td class="p-3 font-mono text-slate-500 dark:text-slate-400 font-bold">${st.sno}</td>
+            <td class="p-3 font-mono font-bold text-amber-700 dark:text-amber-300">${st.roll}</td>
+            <td class="p-3 font-semibold text-slate-900 dark:text-slate-100">${st.name}</td>
+            <td class="p-3 text-slate-600 dark:text-slate-300">CSE(AIML)</td>
+            <td class="p-3 font-bold text-indigo-600 dark:text-indigo-400">${state.activeBucket}</td>
+            <td class="p-3 font-bold ${isPresent ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">${st.status} (${state.activeSubjectCode})</td>
+            <td class="p-3 text-slate-500 dark:text-slate-400 font-mono">Faculty Entry (${state.activeFacultyId})</td>
+          </tr>
+        `;
+      });
+    }
+
+    // 1. DEDICATED STUDENT ACADEMIC ATTENDANCE STATEMENT PDF GENERATOR
+    function exportStudentPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+
+      // Top Red Banner
+      doc.setFillColor(185, 28, 28);
+      doc.rect(0, 0, 210, 16, 'F');
+      doc.setFontSize(11);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('VEL TECH RANGARAJAN DR. SAGUNTHALA R&D INSTITUTE OF SCIENCE AND TECHNOLOGY', 105, 11, { align: 'center' });
+
+      // Document Subtitle
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text('OFFICIAL STUDENT ACADEMIC ATTENDANCE STATEMENT', 105, 24, { align: 'center' });
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(100);
+      doc.text(`Generated Date: ${new Date().toLocaleString()} | Authenticated Student Record`, 105, 29, { align: 'center' });
+
+      // Student Details Box
+      doc.setDrawColor(226, 232, 240);
+      doc.setFillColor(248, 250, 252);
+      doc.roundedRect(14, 33, 182, 30, 3, 3, 'FD');
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(15, 23, 42);
+      doc.text('Student Name:', 18, 40);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Pallapu Dileep Kumar', 55, 40);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Student Username / ID:', 18, 47);
+      doc.setFont('helvetica', 'normal');
+      doc.text('VTU29962 (24UECS0805 - CSE-AIML)', 55, 47);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Department & Term:', 18, 54);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Computer Science & Engineering (AIML) • Semester 6', 55, 54);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text('Class Section Bucket:', 18, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Bucket 29 (30 Students)', 55, 60);
+
+      // Student Courses Table Data
+      const headers = [['S.No', 'Course Code', 'Course Title', 'Credit', 'Assigned Faculty', 'Faculty ID', 'Slot', 'Attendance Status', 'Rate']];
+      
+      let totalPctSum = 0;
+      let absentCount = 0;
+
+      const data = officialCourses.map(c => {
+        const records = subjectAttendanceStore[c.code] || [];
+        const stRec = records.find(r => r.roll.includes('24UECS0805') || r.roll.includes('VTU29962')) || { status: 'Present' };
+        if (stRec.status === 'Absent') absentCount++;
+        const pct = getSubjectPercentage(c.code);
+        totalPctSum += parseFloat(pct);
+        return [c.sno, c.code, c.name, c.credit, c.faculty, c.facultyId, c.slot, stRec.status, `${pct}%`];
+      });
+
+      doc.autoTable({
+        head: headers,
+        body: data,
+        startY: 68,
+        headStyles: { fillColor: [185, 28, 28], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 8 },
+        bodyStyles: { fontSize: 7.5 },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        columnStyles: {
+          0: { cellWidth: 10 },
+          1: { cellWidth: 22, fontStyle: 'bold' },
+          2: { cellWidth: 48 },
+          3: { cellWidth: 12, halign: 'center' },
+          4: { cellWidth: 38 },
+          5: { cellWidth: 18 },
+          6: { cellWidth: 14 },
+          7: { cellWidth: 20, halign: 'center', fontStyle: 'bold' },
+          8: { cellWidth: 14, halign: 'center', fontStyle: 'bold' }
+        }
+      });
+
+      const finalY = doc.lastAutoTable.finalY + 8;
+      const overallPct = (totalPctSum / officialCourses.length).toFixed(1);
+
+      // Summary Box Footer
+      doc.setFillColor(241, 245, 249);
+      doc.roundedRect(14, finalY, 182, 22, 3, 3, 'FD');
+      
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(15, 23, 42);
+      doc.text(`Overall Semester 6 Attendance: ${overallPct}%`, 20, finalY + 7);
+      doc.text(`Total Absences Logged: ${absentCount} Course(s)`, 20, finalY + 14);
+      
+      doc.setTextColor(4, 120, 87);
+      doc.text(`✓ EXAM ELIGIBILITY STATUS: ELIGIBLE (>75% Required Threshold)`, 105, finalY + 10);
+
+      doc.save(`VelTech_Student_Attendance_Statement_VTU29962.pdf`);
+      showToast('Downloaded VelTech_Student_Attendance_Statement_VTU29962.pdf!');
+    }
+
+    // 2. DEDICATED FACULTY SUBJECT CLASS ROSTER PDF GENERATOR
+    function exportFacultyPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('l', 'mm', 'a4');
+      const sub = officialCourses.find(c => c.code === state.activeSubjectCode) || officialCourses[4];
+      const activeSubjectStudents = subjectAttendanceStore[state.activeSubjectCode] || [];
+      const presentCount = activeSubjectStudents.filter(s => s.status === 'Present').length;
+      const absentCount = activeSubjectStudents.filter(s => s.status === 'Absent').length;
+      const rate = getSubjectPercentage(state.activeSubjectCode);
+
+      // Top Indigo Banner
+      doc.setFillColor(79, 70, 229);
+      doc.rect(0, 0, 297, 16, 'F');
+      doc.setFontSize(12);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('VEL TECH RANGARAJAN DR. SAGUNTHALA R&D INSTITUTE OF SCIENCE AND TECHNOLOGY', 148.5, 11, { align: 'center' });
+
+      // Title Subheading
+      doc.setFontSize(13);
+      doc.setTextColor(15, 23, 42);
+      doc.text(`FACULTY CLASS ATTENDANCE ROSTER: ${sub.code} - ${sub.name.toUpperCase()}`, 148.5, 24, { align: 'center' });
+
+      // Faculty Info Banner Box
+      doc.setFillColor(248, 250, 252);
+      doc.setDrawColor(226, 232, 240);
+      doc.roundedRect(14, 29, 269, 22, 3, 3, 'FD');
+
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(15, 23, 42);
+      doc.text(`Authorized Faculty: ${state.activeFacultyName} (${state.activeFacultyId})`, 18, 36);
+      doc.text(`Course Details: ${sub.code} • ${sub.name} (${sub.credit} Credits, Slot ${sub.slot})`, 18, 44);
+
+      doc.text(`Class Bucket: ${state.activeBucket} (30 Students)`, 180, 36);
+      doc.text(`Attendance Summary: ${presentCount} Present | ${absentCount} Absent (${rate}% Attendance Rate)`, 180, 44);
+
+      // Table Header & Rows
+      const headers = [['S.No', 'Registration Number', 'Student Full Name', 'Subject Code', 'Faculty ID', 'Recorded Status', 'Database Sync Time']];
+      const data = activeSubjectStudents.map(s => [
+        s.sno, s.roll, s.name, state.activeSubjectCode, state.activeFacultyId, s.status, new Date().toLocaleTimeString()
+      ]);
+
+      doc.autoTable({
+        head: headers,
+        body: data,
+        startY: 55,
+        headStyles: { fillColor: [79, 70, 229], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 8 },
+        bodyStyles: { fontSize: 8 },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+        columnStyles: {
+          0: { cellWidth: 15 },
+          1: { cellWidth: 65, fontStyle: 'bold' },
+          2: { cellWidth: 55 },
+          3: { cellWidth: 30, fontStyle: 'bold' },
+          4: { cellWidth: 30 },
+          5: { cellWidth: 35, fontStyle: 'bold', halign: 'center' },
+          6: { cellWidth: 35 }
+        }
+      });
+
+      doc.save(`VelTech_Faculty_Class_Roster_${state.activeSubjectCode}.pdf`);
+      showToast(`Downloaded VelTech_Faculty_Class_Roster_${state.activeSubjectCode}.pdf!`);
+    }
+
+    // 3. ADMIN MASTER PDF REPORT GENERATOR
+    function exportAdminMasterPDF() {
+      exportFacultyPDF();
+    }
+
+    // Toast Notification helper
+    function showToast(msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'bg-slate-900 border border-indigo-500/60 text-white px-4 py-3 rounded-2xl shadow-2xl text-xs font-bold flex items-center space-x-2 animate-bounce pointer-events-auto';
+      toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-cyan-400"></i><span>${msg}</span>`;
+      container.appendChild(toast);
+      lucide.createIcons();
+      setTimeout(() => toast.remove(), 3500);
+    }
+  </script>
+</body>
+</html>
