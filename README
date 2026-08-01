@@ -1,0 +1,132 @@
+📘 Smart Attendance System
+
+A modern, responsive Smart Attendance Management System developed for educational institutions. The system provides separate dashboards for Students and Faculty, allowing efficient attendance management, real-time statistics, and downloadable attendance reports.
+
+🌐 Live Demo
+
+🔗 Website: https://dileepkumarpallapu.github.io/Smart-Attendance-System/
+
+📸 Screenshots
+Login Portal
+
+(Add your first screenshot here)
+
+Student Dashboard
+
+(Add your second screenshot here)
+
+Faculty Dashboard
+
+(Add your third screenshot here)
+
+✨ Features
+👨‍🎓 Student Module
+Secure Student Login
+View Overall Attendance Percentage
+Semester-wise Attendance Records
+Subject-wise Attendance
+Registered Courses
+Attendance Eligibility Status
+Download Attendance Report as PDF
+Responsive Dashboard
+👨‍🏫 Faculty Module
+Secure Faculty Login
+View Assigned Subject
+Select Class Bucket
+Mark Students Present/Absent
+One-Click "Mark All Present"
+Save Attendance
+Generate Class Roster PDF
+Live Attendance Statistics
+📊 Dashboard Analytics
+Overall Attendance
+Number of Registered Courses
+Subject Attendance
+Semester Selection
+Attendance Percentage
+Faculty Subject Statistics
+Real-Time Attendance Status
+🛠️ Tech Stack
+Frontend
+HTML5
+CSS3
+JavaScript (ES6)
+UI
+Responsive Design
+Glassmorphism UI
+Dark Mode Theme
+Gradient Components
+Modern Dashboard Layout
+Tools
+Git
+GitHub
+GitHub Pages
+📂 Project Structure
+Smart-Attendance-System/
+│
+├── index.html
+├── css/
+├── js/
+├── assets/
+│   ├── images/
+│   ├── icons/
+│   └── logos/
+├── screenshots/
+└── README.md
+🚀 Getting Started
+
+Clone the repository
+
+git clone https://github.com/DileepKumarPallapu/Smart-Attendance-System.git
+
+Move into the project folder
+
+cd Smart-Attendance-System
+
+Open
+
+index.html
+
+or use
+
+Live Server
+
+in VS Code.
+
+🎯 Key Highlights
+Clean Modern UI
+Responsive Design
+Student Dashboard
+Faculty Dashboard
+Attendance Analytics
+Semester Management
+PDF Export
+Authentication Interface
+Mobile Friendly
+Easy to Customize
+📈 Future Enhancements
+Admin Dashboard
+Database Integration
+Firebase Authentication
+QR Code Attendance
+Face Recognition Attendance
+Email Notifications
+Cloud Database
+Attendance Charts
+Parent Portal
+Mobile App
+👨‍💻 Developed By
+
+Pallapu Dileep Kumar
+
+🎓 CSE (AI & ML)
+Vel Tech Rangarajan Dr. Sagunthala R&D Institute of Science and Technology
+⭐ Support
+
+If you found this project helpful,
+
+⭐ Star this repository
+
+🍴 Fork it
+
+💡 Share your feedback
